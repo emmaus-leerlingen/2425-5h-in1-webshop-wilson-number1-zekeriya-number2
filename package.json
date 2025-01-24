@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+   "better-sqlite3": ">=11.6.0",
+   "express": ">=4.21.1",
+   "nodemailer": ">=6.9.16"
+  },
+  "name": "5v-webshop",
+  "version": "1.0.2",
+  "main": "start.sh",
+  "scripts": {
+    "start": "bash start.sh"
+  },
+  "repository": "https://github.com/emmauscollege/5V-webshop.git",
+  "author": "svgeest <gee@emmauscollege.nl>",
+  "license": "MIT"
+}
