@@ -27,12 +27,12 @@ CREATE TABLE categories (
 -- want different data? check: https://www.mockaroo.com/910b6c20
 --
 
-insert into products (name, description, code, price, category_id) values ('Kabeljauw', 'Very very cheap 1 pound fish', '816905633-0', 10, 1);
-insert into products (name, description, code, price, category_id) values ('Forel', 'Nulla ut erat id mauris vulputate elementum. Nullam varius.', '077030122-3', 20, 1);
-insert into products (name, description, code, price, category_id) values ('Fish Zekeriya', 'Pellentesque at nulla. Suspendisse potenti.', '445924201-X', 50, 3);
-insert into products (name, description, code, price, category_id) values ('Sliptong', 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.', '693155505-7', 30, 1);
-insert into products (name, description, code, price, category_id) values ('Dorade', 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', '686928463-6', 40, 1);
-insert into products (name, description, code, price, category_id) values ('Zalm', 'Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.', '492662523-7', 60, 1);
+insert into products (name, description, code, price, category_id) values ('Kabeljauw', 'Very very cheap 1 pound kabeljauw', '816905633-0', 10, 1);
+insert into products (name, description, code, price, category_id) values ('Forel', 'Very very good 1 pound Forel', '077030122-3', 20, 1);
+insert into products (name, description, code, price, category_id) values ('Fish Zekeriya', 'Limited Edition. Only 1 in the world!', '445924201-X', 1000000, 3);
+insert into products (name, description, code, price, category_id) values ('Sliptong', 'Very very good 1 pound Sliptong', '693155505-7', 30, 1);
+insert into products (name, description, code, price, category_id) values ('Dorade', 'Very very good 1 pound Dorade', '686928463-6', 40, 1);
+insert into products (name, description, code, price, category_id) values ('Zalm', 'Very very good 1 pound Zalm', '492662523-7', 60, 1);
 insert into products (name, description, code, price, category_id) values ('BlueFish', 'Very very cheap 1 pound fish', '346814286-8', 70, 1);
 insert into products (name, description, code, price, category_id) values ('Koi Fish', 'Very very good 1 pound fish', '013578479-0', 100, 4);
 insert into products (name, description, code, price, category_id) values ('Crab', 'Very very good 1 pound crab', '293829104-4', 50, 2);
