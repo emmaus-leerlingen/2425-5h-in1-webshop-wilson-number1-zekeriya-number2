@@ -18,6 +18,24 @@ CREATE TABLE categories (
   description TEXT
 );
 
+CREATE TABLE habitat (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(255),
+  description TEXT
+);
+
+CREATE TABLE land (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(255),
+  description TEXT
+);
+
+CREATE TABLE geographical (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(255),
+  description TEXT
+);
+
 --
 -- populate with data
 --
