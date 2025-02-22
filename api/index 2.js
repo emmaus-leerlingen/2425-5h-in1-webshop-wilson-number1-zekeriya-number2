@@ -1,4 +1,4 @@
-/* database setup, we use better-sqlite3 because it is basic
+// database setup, we use better-sqlite3 because it is basic
 // for advanced documentation see 
 // https://www.npmjs.com/package/better-sqlite3
 const Database = require('better-sqlite3');
@@ -12,6 +12,7 @@ const db = new Database('db/my.db', { verbose: console.log });
 const express = require('express')
 const app = express()
 const port = 8080; // standard port for https
+
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -149,7 +150,7 @@ const deleteProduct = (request, response) => {
 // email bestelling
 // ---------------------------------
 
-/* function checkoutOrder(request, response) {
+function checkoutOrder(request, response) {
   console.log("API ontvangt /api/checkout/")
 
   // lees informatie die is meegestuurd naar api via POST-request
@@ -271,4 +272,4 @@ function sendMail(subject, body, recipent) {
     }
   });
 
-} 
+}
