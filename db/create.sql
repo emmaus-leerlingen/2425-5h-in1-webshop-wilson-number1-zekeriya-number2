@@ -22,6 +22,14 @@ CREATE TABLE products (
   FOREIGN KEY (colours_id) REFERENCES colours(id)
 );
 
+CREATE TABLE products_colours (
+    products_id INT,
+    colours_id INT,
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    FOREIGN KEY (kleur_id) REFERENCES kleur(kleur_id),
+    PRIMARY KEY (product_id, kleur_id)
+);
+
 CREATE TABLE customers (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   FirstName VARCHAR(255),
@@ -66,7 +74,7 @@ insert into products (name, description, code, price, categories_id, colours_id)
 insert into products (name, description, code, price, categories_id, colours_id) values ('BlueFish', 'Very very cheap 1 pound fish', '346814286-8', 70, 1, 6);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Koi Fish', 'Very very good 1 pound fish', '013578479-0', 100, 4, 7);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Crab', 'Very very good 1 pound crab', '293829104-4', 50, 2, 4);
-insert into products (name, description, code, price, categories_id, colours_id) values ('mussel', 'Very very good 1 pound mussel', '820451759-9', 10, 2, 6);
+insert into products (name, description, code, price, categories_id, colours_id) values ('Mussel', 'Very very good 1 pound mussel', '820451759-9', 10, 2, 6);
 insert into products (name, description, code, price, categories_id, colours_id) values ('WhaleShark', 'Very very good 1000 pound WhaleShark', '239471047-6', 10000, 3, 6);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Lionfish', 'Very very good 1 pound lionfish', '930284917-3', 100, 3, 7);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Devils Hole PupFish', 'Very very good 1 pound devils hole pupfish', '7283928193-2', 200, 3, 5);
@@ -76,6 +84,11 @@ insert into products (name, description, code, price, categories_id, colours_id)
 insert into products (name, description, code, price, categories_id, colours_id) values ('The Betta', 'Very very good 1 pound The Betta', '829374213-4', 60, 4, 7);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Gold Fish', 'Very very good 1 pound Gold fish', '639201923-4', 30, 4, 8);
 insert into products (name, description, code, price, categories_id, colours_id) values ('Guppies', 'Very very good 1 pound Guppies', '718293847-4', 60, 4, 7);
+insert into products (name, description, code, price, categories_id, colours_id) values ('test', 'Very very cheap 1 pound test', '234146738-0', 10, 1, 1);
+insert into products (name, description, code, price, categories_id, colours_id) values ('2', 'Very very cheap 1 pound 2', '634357259-0', 10, 1, 1);
+insert into products (name, description, code, price, categories_id, colours_id) values ('exotisch1', 'Very very good 1000 pound WhaleShark', '532465785-7', 10000, 3, 6);
+insert into products (name, description, code, price, categories_id, colours_id) values ('exotisch2', 'Very very good 1000 pound WhaleShark', '231546756-0', 10000, 3, 6);
+insert into products (name, description, code, price, categories_id, colours_id) values ('exotisch 3', 'Very very good 1000 pound WhaleShark', '233409865-6', 10000, 3, 6);
 
 insert into customers (FirstName, LastName, Email, PhoneNumber, Addresses) values ('Elizabeth', 'Smith', 'elizasmith32@gmail.com', '0648362973', 'Tulpweg 44, Rotterdam');
 insert into customers (FirstName, LastName, Email, PhoneNumber, Addresses) values ('James', 'Williams', 'willj77@hotmail.com', '0617582374', 'Schilderswijk 86, Den Haag');

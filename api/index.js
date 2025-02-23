@@ -1,4 +1,4 @@
-/* database setup, we use better-sqlite3 because it is basic
+ //database setup, we use better-sqlite3 because it is basic
 // for advanced documentation see 
 // https://www.npmjs.com/package/better-sqlite3
 const Database = require('better-sqlite3');
@@ -11,7 +11,7 @@ const db = new Database('db/my.db', { verbose: console.log });
 // see https://expressjs.com 
 const express = require('express')
 const app = express()
-const port = 8080; // standard port for https
+const port = 8083; // standard port for https
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json())
@@ -55,24 +55,42 @@ function echoRequest(request, response) {
 }
 
 function getCategories(request, response) {
-  console.log('API ontvangt /api/categories/')
-  // TODO: breid database uit zodat onderstaande query een lijstje categoriën levert.
-  const sqlOpdracht = db.prepare('SELECT categories.name AS category_name FROM categories ORDER BY id ASC')
-  const data = sqlOpdracht.all()
-  // console.log(JSON.stringify(data, null, 2))
-  response.status(200).send(data)
-  console.log('API verstuurt /api/categories/')
+  console.log('API ontvangt /api/categories/');
+  const sqlOpdracht = db.prepare('SELECT categories.id, categories.name AS categories_name, categories.description FROM categories ORDER BY id ASC');
+  const data = sqlOpdracht.all();  // Haal de categorieën op met ID, naam en beschrijving
+  response.status(200).send(data);  // Stuur de data terug naar de frontend
+  console.log('API verstuurt /api/categories/');
 }
 
+
 function getProducts(request, response) {
-  console.log('API ontvangt /api/products/', request.query)
-  let data = []
-  const sqlOpdracht = db.prepare('SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price FROM products JOIN categories ON products.categories_id = categories.id ORDER BY price ASC')
-  data = sqlOpdracht.all()
-  // console.log(JSON.stringify(data, null, 2))
-  response.status(200).send(data)
-  console.log('API verstuurt /api/products/')
+  console.log('API ontvangt /api/products/', request.query);
+  let data = [];
+
+  // Haal categories_id op uit de querystring
+  const categoriesId = parseInt(request.query.categories_id);
+
+  // Als categories_id is meegegeven, haal dan producten op voor die categorie
+  let sqlOpdracht;
+  if (categoriesId) {
+    // Als er een categories_id is, gebruik die in de query
+    sqlOpdracht = db.prepare(`
+      SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price FROM products WHERE products.categories_id = ? ORDER BY products.name ASC
+    `);
+    data = sqlOpdracht.all(categoriesId);  // Haal producten op voor de opgegeven categorie
+  } else {
+    // Als er geen categories_id is meegegeven, haal dan alle producten op
+    sqlOpdracht = db.prepare(`
+      SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price FROM products JOIN categories ON products.categories_id = categories.id ORDER BY categories_id ASC
+    `);
+    data = sqlOpdracht.all();  // Haal alle producten op
+  }
+
+  // Stuur de data terug naar de frontend
+  response.status(200).send(data);
+  console.log('API verstuurt /api/products/');
 }
+
 
 function getProductById(request, response) {
   console.log('API ontvangt /api/products/:id', request.query)
@@ -81,6 +99,24 @@ function getProductById(request, response) {
   const sqlOpdracht = db.prepare('SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price FROM products WHERE id = ?')
   data = sqlOpdracht.all(product_id)
   response.status(200).json(data[0])
+}
+
+// Haal producten op op basis van categorie-ID
+function getProductsBycategories(request, response) {
+  console.log('API ontvangt /api/products/categories/:categories_id', request.query)
+  const categoriesId = parseInt(request.params.categories_id)
+  let data = []
+
+  const sqlOpdracht = db.prepare(`
+    SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price
+    FROM products
+    WHERE products.categories_id = ?
+    ORDER BY products.name ASC
+  `)
+
+  data = sqlOpdracht.all(categoriesId)
+  response.status(200).send(data)
+  console.log('API verstuurt producten per categorie')
 }
 
 /*
@@ -149,7 +185,7 @@ const deleteProduct = (request, response) => {
 // email bestelling
 // ---------------------------------
 
-/* function checkoutOrder(request, response) {
+ function checkoutOrder(request, response) {
   console.log("API ontvangt /api/checkout/")
 
   // lees informatie die is meegestuurd naar api via POST-request
