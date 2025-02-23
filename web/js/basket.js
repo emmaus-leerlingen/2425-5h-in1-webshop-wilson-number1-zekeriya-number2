@@ -51,11 +51,7 @@ function openArticlePage(el) {
 }
 
 
-function openArticlePage2(el) {
-  const colour_id = getChild(el, '.colour_id').value
-  console.log(getClosest(el, '.colour_id'))
-  window.location = `/colours.html?colourId=${colour_id}`
-}
+
 
 function emptyBasket() {
   // maybe clearing completly a bit too much?
