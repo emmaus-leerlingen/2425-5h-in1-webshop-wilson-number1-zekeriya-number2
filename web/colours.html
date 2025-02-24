@@ -36,11 +36,11 @@
         </li>
       </ul>
       <a 
-        href="basket.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Winkelwagen <span class="num_colours"></span></button></a>
+        href="basket.html"><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Winkelwagen <span class="num_products"></span></button></a>
     </div>
   </nav>
 
-<!-- lijst met colour, wordt gevuld door javascript -->
+<!-- lijst met producten, wordt gevuld door javascript -->
   <main id="index">
    
   
@@ -56,7 +56,7 @@
       
       <div class="card product">
 
-        <div class="card" onclick="openproductPage(this)">
+        <div class="card" onclick="openArticlesPage(this)">
         <h5 class="card-header product_title"></h5>
         <img width="200" class="product_image ">
 
@@ -102,7 +102,7 @@
   const urlParams = new URLSearchParams(window.location.search);
   const categoriesId = urlParams.get('categories_id');  // Haal de categories_id uit de URL
 
-  // Haal de producten op voor deze categorie
+  // Haal de kleuren op voor deze categorie
   var request = new XMLHttpRequest();
   request.open('GET', `/api/colours?categories_id=${categoriesId}`, true);
   request.onload = function () {
@@ -110,21 +110,25 @@
       const colours = JSON.parse(this.response);
       colours.forEach(colour => {
         const clone = template.content.cloneNode(true);
-        clone.querySelector(".colour_title").textContent = colour.name;
-        clone.querySelector(".colour_id").value = colour.id;
-        clone.querySelector(".colour_id").dataset.json = JSON.stringify(colour);
-        clone.querySelector(".colour_image").src = `/images/${colour.name}.jpg`;  // Zorg dat je afbeeldingen hebt met de juiste naam
+        clone.querySelector(".product_title").textContent = colour.name; // Kleur naam
+        clone.querySelector(".product_description").textContent = colour.description || 'Geen beschrijving'; // Kleur beschrijving
+        clone.querySelector(".product_price").textContent = `€ ${colour.price.toFixed(2)}`; // Kleur prijs
+        clone.querySelector(".product_code").textContent = colour.code; // Kleur code
+        clone.querySelector(".product_id").value = colour.id;
+        clone.querySelector(".product_id").dataset.json = JSON.stringify(colour);
+        clone.querySelector(".product_image").src = `/images/${colour.id}.jpg`;  // Zorg dat je afbeeldingen hebt met de juiste naam
 
         container.appendChild(clone);
       });
     } else {
       const errorMessage = document.createElement('marquee');
-      errorMessage.textContent = `Er is iets mis gegaan bij het laden van de producten.`;
+      errorMessage.textContent = `Er is iets mis gegaan bij het laden van de kleuren.`;
       app.appendChild(errorMessage);
     }
   };
   request.send();
 })();
+
 
   </script>
 

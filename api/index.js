@@ -116,7 +116,7 @@ function getProductsBycategories(request, response) {
 
   data = sqlOpdracht.all(categoriesId)
   response.status(200).send(data)
-  console.log('API verstuurt producten per categorie')
+  console.log('API verstuurt Colours per categorie')
 }
 
 function getColours(request, response) {
@@ -126,50 +126,56 @@ function getColours(request, response) {
   // Haal categories_id op uit de querystring
   const categoriesId = parseInt(request.query.categories_id);
 
-  // Als categories_id is meegegeven, haal dan producten op voor die categorie
-  let sqlOpdracht;
-  if (categoriesId) {
-    // Als er een categories_id is, gebruik die in de query
-    sqlOpdracht = db.prepare(`
-      SELECT colours.id AS id, colours.name AS name FROM colours WHERE colours.categories_id = ? ORDER BY colours.id ASC`);
-    data = sqlOpdracht.all(categoriesId);  // Haal producten op voor de opgegeven categorie
-  } else {
+  // Als categories_id is meegegeven, haal dan Colours op voor die categorie
+  let sqlOpdracht;{
+  
     // Als er geen categories_id is meegegeven, haal dan alle producten op
     sqlOpdracht = db.prepare(`
-      SELECT colours.id AS id, colours.name AS name FROM colours JOIN categories ON colours.categories_id = categories.id ORDER BY colours_id ASC`);
-    data = sqlOpdracht.all();  // Haal alle producten op
+      SELECT Colours.id AS id, Colours.name AS name FROM Colours JOIN categories ON colours.categories_id = categories.id ORDER BY categories_id ASC
+    `);
+    data = sqlOpdracht.all();  // Haal alle Colours op
+    }
   }
 
-  // Stuur de data terug naar de frontend
-  response.status(200).send(data);
-  console.log('API verstuurt /api/colours/');
-}
+    function getColoursBycategories(request, response) {
+      console.log('API ontvangt /api/colours/categories/:categories_id', request.query);
+      const categoriesId = parseInt(request.params.categories_id);
+      let data = [];
+    
+      const sqlOpdracht = db.prepare(`
+        SELECT colours.id AS id, colours.name AS name
+        FROM colours
+        WHERE colours.categories_id = ?
+        ORDER BY colours.name ASC
+      `);
+    
+      data = sqlOpdracht.all(categoriesId);
+      response.status(200).send(data);
+      console.log('API verstuurt kleuren per categorie');
+    }
+    
 
-function getcoloursById(request, response) {
-  console.log('API ontvangt /api/colours/:id', request.query)
-  let data = []
-  const colours_id = parseInt(request.params.id)
-  const sqlOpdracht = db.prepare('SELECT colours.id AS id, colours.name AS name FROM colours WHERE id = ?')
-  data = sqlOpdracht.all(colours_id)
-  response.status(200).json(data[0])
-}
 
-function getProductsBycolours(request, response) {
-  console.log('API ontvangt /api/products/colours/:colours_id', request.query)
-  const categoriesId = parseInt(request.params.categories_id)
-  let data = []
+    function getProductColours(request, response) {
+      console.log('API ontvangt /api/products/:id/colours', request.query);
+      const productId = parseInt(request.params.id);
+      
+      const sqlOpdracht = db.prepare(`
+        SELECT colours.id, colours.name 
+        FROM colours
+        JOIN products_colours ON products_colours.colours_id = colours.id
+        WHERE products_colours.products_id = ?
+      `);
+    
+      const data = sqlOpdracht.all(productId);
+    
+      response.status(200).send(data);
+      console.log('API verstuurt kleuren voor product');
+    }
+    
 
-  const sqlOpdracht = db.prepare(`
-    SELECT products.id AS id, products.name AS name, products.description AS description, products.code AS code, products.price AS price
-    FROM products
-    WHERE products.colours_id = ?
-    ORDER BY products.name ASC
-  `)
 
-  data = sqlOpdracht.all(coloursId)
-  response.status(200).send(data)
-  console.log('API verstuurt producten per colours')
-}
+
 /*
 const getRelatedProductsById = (request, response) => {
   const id = parseInt(request.params.id)

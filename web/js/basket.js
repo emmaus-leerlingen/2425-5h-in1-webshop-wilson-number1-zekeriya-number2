@@ -49,6 +49,11 @@ function openArticlePage(el) {
   console.log(getClosest(el, '.product_id'))
   window.location = `/product.html?productId=${product_id}`
 }
+function openArticlesPage(el) {
+  const product_id = getChild(el, '.product_id').value
+  console.log(getClosest(el, '.product_id'))
+  window.location = `/products.html?productId=${product_id}`
+}
 
 
 
